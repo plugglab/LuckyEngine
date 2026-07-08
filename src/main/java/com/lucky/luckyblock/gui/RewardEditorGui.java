@@ -607,6 +607,7 @@ public class RewardEditorGui extends BaseGui {
                 if (enchObj instanceof List<?> el) el.forEach(x -> enchs.add(String.valueOf(x)));
                 s.multiItems.add(new ItemEntry(mat, amt, enchs));
             }
+            List<?> fxList = r.getSection().getList("effects");
             if (fxList != null) for (Object obj : fxList) {
                 if (!(obj instanceof Map<?,?> raw)) continue;
                 Map<Object,Object> map = (Map<Object,Object>) raw;
