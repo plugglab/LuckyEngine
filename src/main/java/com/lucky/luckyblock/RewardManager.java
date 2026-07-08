@@ -96,21 +96,27 @@ public class RewardManager {
     private void giveItem(Reward reward, Player player) {
         ItemStack item = buildItem(reward.getSection());
         give(player, item);
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                plugin.getConfig().getString("prefix","&6[LuckyBlock] &r") + "&aYou received: ") + reward.getDisplayName());
+        player.sendMessage(plugin.getLangManager().get("reward-item-received", "reward", reward.getDisplayName()));
     }
 
     private void giveMultiItem(Reward reward, Player player) {
         List<?> items = reward.getSection().getList("items");
-        if (items == null) return;
+        if (items == null || items.isEmpty()) {
+            player.sendMessage("§c[LuckyBlock] Multi-item reward '" + reward.getId() + "' has no items configured.");
+            return;
+        }
+        int given = 0;
         for (Object obj : items) {
-            if (!(obj instanceof Map<?,?> map)) continue;
+            if (!(obj instanceof Map<?,?> rawMap)) continue;
+            @SuppressWarnings("unchecked")
+            Map<Object,Object> map = (Map<Object,Object>) rawMap;
             MemoryConfiguration mc = new MemoryConfiguration();
             for (var e : map.entrySet()) mc.set(e.getKey().toString(), e.getValue());
             give(player, buildItem(mc));
+            given++;
         }
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                plugin.getConfig().getString("prefix","&6[LuckyBlock] &r") + "&aYou received: ") + reward.getDisplayName());
+        if (given > 0)
+            player.sendMessage(plugin.getLangManager().get("reward-item-received", "reward", reward.getDisplayName()));
     }
 
     /** Builds an ItemStack from a ConfigurationSection with material/amount/enchantments/custom-name/lore fields. */
@@ -313,39 +319,46 @@ public class RewardManager {
     }
 
     private void buildTreasureVault(Location loc, World world) {
-        // Small 5×4×5 stone vault with a chest of goodies in the centre
         Location base = loc.clone().add(-2, 0, -2);
+
+        // Build 5×4×5 stone brick shell
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 4; y++) {
                 for (int z = 0; z < 5; z++) {
                     boolean isShell = (x == 0 || x == 4 || y == 0 || y == 3 || z == 0 || z == 4);
-                    world.getBlockAt(base.clone().add(x, y, z)).setType(isShell ? Material.STONE_BRICKS : Material.AIR);
+                    world.getBlockAt(base.clone().add(x, y, z))
+                            .setType(isShell ? Material.STONE_BRICKS : Material.AIR, false);
                 }
             }
         }
-        // Entrance
-        world.getBlockAt(base.clone().add(2, 1, 0)).setType(Material.AIR);
-        world.getBlockAt(base.clone().add(2, 2, 0)).setType(Material.AIR);
 
-        // Chest at centre
+        // 2-tall entrance in front face
+        world.getBlockAt(base.clone().add(2, 1, 0)).setType(Material.AIR, false);
+        world.getBlockAt(base.clone().add(2, 2, 0)).setType(Material.AIR, false);
+
+        // Torches
+        world.getBlockAt(base.clone().add(1, 2, 1)).setType(Material.TORCH, false);
+        world.getBlockAt(base.clone().add(3, 2, 3)).setType(Material.TORCH, false);
+
+        // Chest — set block first, then fill via the LIVE block state (not a snapshot)
         Location chestLoc = base.clone().add(2, 1, 2);
-        world.getBlockAt(chestLoc).setType(Material.CHEST);
-        if (world.getBlockAt(chestLoc).getState() instanceof org.bukkit.block.Chest chest) {
-            ItemStack[] loot = {
-                new ItemStack(Material.DIAMOND, 5),
-                new ItemStack(Material.GOLD_INGOT, 10),
-                new ItemStack(Material.GOLDEN_APPLE, 3),
-                new ItemStack(Material.NETHERITE_INGOT, 1),
-                new ItemStack(Material.EMERALD, 8)
-            };
-            Random r = new Random();
-            for (ItemStack item : loot) chest.getInventory().setItem(r.nextInt(27), item);
-            chest.update();
-        }
+        world.getBlockAt(chestLoc).setType(Material.CHEST, false);
 
-        // Torches for light
-        world.getBlockAt(base.clone().add(1, 2, 1)).setType(Material.TORCH);
-        world.getBlockAt(base.clone().add(3, 2, 3)).setType(Material.TORCH);
+        // Schedule one tick later so the block finishes placing before we access its inventory
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            org.bukkit.block.BlockState state = world.getBlockAt(chestLoc).getState();
+            if (state instanceof org.bukkit.block.Chest chest) {
+                org.bukkit.inventory.Inventory inv = chest.getInventory();
+                inv.addItem(new ItemStack(Material.DIAMOND, 5));
+                inv.addItem(new ItemStack(Material.GOLD_INGOT, 10));
+                inv.addItem(new ItemStack(Material.GOLDEN_APPLE, 3));
+                inv.addItem(new ItemStack(Material.NETHERITE_INGOT, 1));
+                inv.addItem(new ItemStack(Material.EMERALD, 8));
+                inv.addItem(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1));
+                inv.addItem(new ItemStack(Material.DIAMOND_SWORD, 1));
+                inv.addItem(new ItemStack(Material.EXPERIENCE_BOTTLE, 16));
+            }
+        });
     }
 
     private void buildOreVein(Location loc, World world, Material oreMat) {
@@ -443,24 +456,22 @@ public class RewardManager {
         int levels = reward.getInt("xp-levels", 0);
         if (points > 0) player.giveExp(points);
         if (levels > 0) player.giveExpLevels(levels);
-        String msg = plugin.getConfig().getString("prefix", "&6[LuckyBlock] &r");
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg)
-                + ChatColor.GREEN + "You received "
-                + (levels > 0 ? ChatColor.YELLOW + "" + levels + " levels" : "")
-                + (levels > 0 && points > 0 ? ChatColor.GREEN + " and " : "")
-                + (points > 0 ? ChatColor.YELLOW + "" + points + " XP points" : "")
-                + ChatColor.GREEN + "!");
+        LangManager lang = plugin.getLangManager();
+        if (points > 0 && levels > 0)
+            player.sendMessage(lang.get("reward-xp-and-levels", "points", String.valueOf(points), "levels", String.valueOf(levels)));
+        else if (points > 0)
+            player.sendMessage(lang.get("reward-xp-received", "points", String.valueOf(points)));
+        else if (levels > 0)
+            player.sendMessage(lang.get("reward-levels-received", "levels", String.valueOf(levels)));
     }
 
     // ── Broadcast ─────────────────────────────────────────────────────────────
     private void broadcastReward(Reward reward, Player player) {
         if (!plugin.getConfig().getBoolean("broadcast-rewards", true)) return;
-        if (reward.getTier() != Reward.Tier.GREAT && reward.getTier() != Reward.Tier.GOOD) return;
-        String format = plugin.getConfig().getString("broadcast-format",
-                "&6[LuckyBlock] &e%player% &7triggered: &a%reward%");
-        String msg = ChatColor.translateAlternateColorCodes('&', format)
-                .replace("%player%", player.getName())
-                .replace("%reward%", reward.getDisplayName());
+        // Only LEGENDARY (GREAT) tier announces to the whole server
+        if (reward.getTier() != Reward.Tier.GREAT) return;
+        String msg = plugin.getLangManager().get("broadcast-format",
+                "player", player.getName(), "reward", reward.getDisplayName());
         Bukkit.broadcastMessage(msg);
     }
 }

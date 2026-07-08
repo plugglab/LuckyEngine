@@ -11,6 +11,8 @@ public final class LuckyBlockPlugin extends JavaPlugin {
     private static LuckyBlockPlugin instance;
     private RewardManager rewardManager;
     private LuckManager luckManager;
+    private LangManager langManager;
+    private StatsManager statsManager;
     private CraftingManager craftingManager;
     private GuiManager guiManager;
     private NamespacedKey luckyItemKey;
@@ -21,10 +23,13 @@ public final class LuckyBlockPlugin extends JavaPlugin {
         instance = this;
         saveDefaultConfig();
 
-        this.luckyItemKey = new NamespacedKey(this, "lucky_block_item");
-
-        this.luckManager    = new LuckManager(this);
-        this.rewardManager  = new RewardManager(this);
+        this.luckyItemKey  = new NamespacedKey(this, "lucky_block_item");
+        this.langManager   = new LangManager(this);
+        this.langManager.load();
+        this.luckManager   = new LuckManager(this);
+        this.statsManager  = new StatsManager(this);
+        this.statsManager.init();
+        this.rewardManager = new RewardManager(this);
         this.rewardManager.loadRewards();
 
         LuckyBlockTracker.init(this);
@@ -34,16 +39,13 @@ public final class LuckyBlockPlugin extends JavaPlugin {
 
         this.guiManager = new GuiManager(this);
 
-        // Event listeners
         getServer().getPluginManager().registerEvents(new BlockListener(this), this);
         getServer().getPluginManager().registerEvents(new GuiListener(guiManager), this);
 
-        // Commands
         LuckyBlockCommand cmd = new LuckyBlockCommand(this);
         getCommand("luckyblock").setExecutor(cmd);
         getCommand("luckyblock").setTabCompleter(cmd);
 
-        // PlaceholderAPI
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new LuckyBlockPlaceholders(this).register();
             placeholderApiEnabled = true;
@@ -63,12 +65,15 @@ public final class LuckyBlockPlugin extends JavaPlugin {
     public static LuckyBlockPlugin getInstance() { return instance; }
     public RewardManager getRewardManager()       { return rewardManager; }
     public LuckManager getLuckManager()           { return luckManager; }
+    public LangManager getLangManager()           { return langManager; }
+    public StatsManager getStatsManager()         { return statsManager; }
     public GuiManager getGuiManager()             { return guiManager; }
     public NamespacedKey getLuckyItemKey()         { return luckyItemKey; }
     public boolean isPlaceholderApiEnabled()       { return placeholderApiEnabled; }
 
     public void reload() {
         reloadConfig();
+        langManager.load();
         rewardManager.loadRewards();
         craftingManager.register();
     }

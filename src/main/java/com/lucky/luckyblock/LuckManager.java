@@ -52,6 +52,15 @@ public class LuckManager {
         return "§4§l" + luck;
     }
 
+    /** Returns the luck tier label from the active lang file. */
+    public String formatLuckTier(int luck, com.lucky.luckyblock.LangManager lang) {
+        if (luck >= 75)  return lang.get("luck-tier-very-lucky");
+        if (luck >= 25)  return lang.get("luck-tier-lucky");
+        if (luck >= -24) return lang.get("luck-tier-neutral");
+        if (luck >= -74) return lang.get("luck-tier-unlucky");
+        return lang.get("luck-tier-very-unlucky");
+    }
+
     public void saveAll() { save(); }
 
     private void load() {

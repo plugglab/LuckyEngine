@@ -2,6 +2,11 @@
 #  LuckyBlock v1.0 Configuration
 # =========================================================
 
+# Language to use for all player-facing messages.
+# Available: en_US, pl_PL
+# Lang files are in plugins/LuckyBlock/lang/
+language: en_US
+
 # Material used to represent the Lucky Block in the world
 lucky-block-material: YELLOW_STAINED_GLASS
 
@@ -12,37 +17,65 @@ suppress-normal-drop: true
 # Each player has a luck value from -100 (very unlucky) to +100 (very lucky).
 # Luck shifts the weighted random selection: positive luck biases toward
 # rewards tagged with tier: GOOD or GREAT; negative luck biases toward BAD.
-# All players start at this default luck value (0 = neutral).
 default-luck: 0
 
-# How much luck changes after each break (can be 0 to disable drift)
+# Min and max possible luck values
+luck-min: -100
+luck-max: 100
+
+# How much luck changes after each break (0 = disabled)
 luck-drift-after-break: 0
+
+# Reset player luck to default-luck on death
+luck-reset-on-death: false
+
+# ─── COOLDOWNS ───────────────────────────────────────────
+# Seconds a player must wait between breaking lucky blocks (0 = no cooldown)
+cooldown-seconds: 0
+cooldown-message: "&cYou must wait &e%seconds%s &cbefore breaking another Lucky Block!"
+
+# ─── WORLD RESTRICTIONS ──────────────────────────────────
+# List worlds where lucky blocks are active. Leave empty to allow all worlds.
+allowed-worlds: []
+# Example:
+# allowed-worlds:
+#   - world
+#   - world_nether
+
+# ─── TOOL RESTRICTION ────────────────────────────────────
+# Require a specific tool to break lucky blocks (ANY = no restriction)
+# Examples: GOLDEN_PICKAXE, DIAMOND_PICKAXE, ANY
+required-tool: ANY
 
 # ─── CRAFTING ────────────────────────────────────────────
 crafting:
   enabled: true
-  # Crafting shape uses a 3×3 grid (9 chars, row by row, space = empty)
-  # Use single letters as ingredient keys, defined under 'ingredients'
   shape:
     - "GGG"
-    - "GSG"
+    - "GDG"
     - "GGG"
   ingredients:
-    G: GLASS
-    S: SPONGE
+    G: GOLD_BLOCK
+    D: DISPENSER
   result-amount: 1
 
 # ─── EFFECTS ─────────────────────────────────────────────
 effects:
   break-particle: TOTEM_OF_UNDYING
   break-sound: ENTITY_PLAYER_LEVELUP
-  # Play an ambient sound every N seconds while the block sits in the world (0 = off)
-  ambient-sound-interval: 0
+  sound-volume: 1.0
+  sound-pitch: 1.0
+  particle-count: 60
 
-# ─── MESSAGES ────────────────────────────────────────────
-# Only GREAT and GOOD tier rewards are broadcasted — NEUTRAL and BAD are silent
+# ─── HUD ─────────────────────────────────────────────────
+hud:
+  # Show the luck/tier info box in chat when a lucky block is broken
+  enabled: true
+
+# ─── BROADCAST ───────────────────────────────────────────
+# Only GREAT (Legendary) tier rewards are broadcast to the whole server.
+# GOOD, NEUTRAL and BAD rewards show only to the player who broke the block.
 broadcast-rewards: true
-broadcast-format: "&6✦ &e%player% &7broke a Lucky Block and got: &a%reward%"
 prefix: "&6[&eLucky&6] &r"
 
 # ─── REWARDS ─────────────────────────────────────────────
