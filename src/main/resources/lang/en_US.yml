@@ -74,7 +74,7 @@ help-addluck: "&e/lb addluck <p> <n> &7- add luck"
 help-getluck: "&e/lb getluck [p]   &7- check luck"
 help-list: "&e/lb list           &7- list rewards"
 help-reload: "&e/lb reload         &7- reload"
-help-craft: "&7Craft: &88 &6Gold Blocks &7+ &81 &7Dispenser"
+help-craft: "&7Craft: &88 &6Gold Blocks &7+ &81 &7Dispenser → &aCommon Lucky Block"
 
 # ── Lucky Block item ──────────────────────────────────────
 lucky-block-item-name: "&6&l✦ Lucky Block"
@@ -159,3 +159,13 @@ gui-cmd-note2: "&7Use %player% for the player's name"
 gui-cmd-note3: ""
 gui-cmd-add-prompt: "Type command (no /, use %player%):"
 gui-cmd-edit-prompt: "Edit command %n% (currently: %cmd%):"
+
+# ── Rarity ────────────────────────────────────────────────
+rarity-common: "&aCommon"
+rarity-rare: "&9Rare"
+rarity-epic: "&5Epic"
+rarity-legendary: "&6&lLegendary"
+
+# ── GUI — Main Menu rarity give section ───────────────────
+gui-main-give-rarity-info: "&7Give by Rarity"
+gui-main-give-rarity-desc: "&7Click a Lucky Block below to receive it"

@@ -1,8 +1,8 @@
 name: LuckyBlock
-version: '1.0.0'
+version: '1.0'
 main: com.lucky.luckyblock.LuckyBlockPlugin
 api-version: '1.21'
-author: Claude
+author: PluggLAB studio
 description: Feature-rich Lucky Block plugin with luck system, custom drops, structures, crafting and PlaceholderAPI support.
 softdepend: [PlaceholderAPI]
 

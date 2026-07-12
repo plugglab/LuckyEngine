@@ -146,8 +146,8 @@ public class MultiItemEditorGui extends BaseGui {
                             (amtStr, s2) -> {
                                 int amt = 1;
                                 try { amt = Math.max(1, Integer.parseInt(amtStr.trim())); } catch (Exception ignored) {}
+                                final int amtFinal = amt;
                                 // Ask for enchants (optional)
-                                int finalAmt = amt;
                                 manager.startChatInput(player, new ChatInputSession(
                                         "Enter enchantments (e.g. SHARPNESS:5 UNBREAKING:3), or 'none' to skip:",
                                         s2,
@@ -156,7 +156,7 @@ public class MultiItemEditorGui extends BaseGui {
                                             if (!enchStr.equalsIgnoreCase("none") && !enchStr.isBlank())
                                                 for (String e : enchStr.trim().split("\\s+"))
                                                     if (!e.isBlank()) enchs.add(e.toUpperCase());
-                                            s3.multiItems.add(new RewardEditorGui.ItemEntry(matUp, finalAmt, enchs));
+                                            s3.multiItems.add(new RewardEditorGui.ItemEntry(matUp, amtFinal, enchs));
                                             manager.openGui(player, new MultiItemEditorGui(manager, player, s3, 0));
                                         }
                                 ));

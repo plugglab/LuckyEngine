@@ -1,0 +1,476 @@
+# =========================================================
+#  LuckyBlock v1.0 Rewards
+#  This file was split out from config.yml so the reward pool
+#  can be managed independently. Reload with /luckyblock reload.
+# =========================================================
+
+# ─── REWARDS ─────────────────────────────────────────────
+# tier: GREAT | GOOD | NEUTRAL | BAD  (used by luck weighting)
+# weight: base weight before luck modifier is applied
+# type: ITEM | MULTI_ITEM | COMMAND | MOB_SPAWN | EXPLOSION |
+#        POTION_EFFECT | LIGHTNING | MESSAGE | STRUCTURE |
+#        CHEST_LOOT | ENCHANT_HELD | FIREWORKS | TRAP
+# ─────────────────────────────────────────────────────────
+rewards:
+
+  # ══════════════ LEGENDARY GREAT ══════════════
+  - id: netherite_sword_god
+    tier: GREAT
+    type: ITEM
+    weight: 2
+    display-name: "&5&lLegendary God Sword!"
+    material: NETHERITE_SWORD
+    amount: 1
+    custom-name: "&5✦ Blade of Fortune"
+    lore:
+      - "&7Forged from pure luck"
+      - "&8Legendary"
+    enchantments:
+      - "SHARPNESS:6"
+      - "FIRE_ASPECT:3"
+      - "LOOTING:4"
+      - "UNBREAKING:5"
+      - "MENDING:1"
+
+  - id: netherite_set
+    tier: GREAT
+    type: MULTI_ITEM
+    weight: 1
+    display-name: "&5Full Netherite Armor Set!"
+    items:
+      - material: NETHERITE_HELMET
+        amount: 1
+        enchantments: ["PROTECTION:5","UNBREAKING:4","MENDING:1","RESPIRATION:3"]
+      - material: NETHERITE_CHESTPLATE
+        amount: 1
+        enchantments: ["PROTECTION:5","UNBREAKING:4","MENDING:1","THORNS:3"]
+      - material: NETHERITE_LEGGINGS
+        amount: 1
+        enchantments: ["PROTECTION:5","UNBREAKING:4","MENDING:1"]
+      - material: NETHERITE_BOOTS
+        amount: 1
+        enchantments: ["PROTECTION:5","FEATHER_FALLING:4","UNBREAKING:4","MENDING:1"]
+
+  - id: full_enchant_bow
+    tier: GREAT
+    type: ITEM
+    weight: 3
+    display-name: "&bLegendary Bow!"
+    material: BOW
+    amount: 1
+    custom-name: "&bArc of the Skies"
+    enchantments:
+      - "POWER:6"
+      - "FLAME:1"
+      - "INFINITY:1"
+      - "PUNCH:3"
+      - "UNBREAKING:5"
+      - "MENDING:1"
+
+  - id: elytra_reward
+    tier: GREAT
+    type: ITEM
+    weight: 2
+    display-name: "&dElytra!"
+    material: ELYTRA
+    amount: 1
+    enchantments:
+      - "UNBREAKING:4"
+      - "MENDING:1"
+
+  - id: totem_reward
+    tier: GREAT
+    type: ITEM
+    weight: 4
+    display-name: "&6Totem of Undying!"
+    material: TOTEM_OF_UNDYING
+    amount: 2
+
+  - id: beacon_reward
+    tier: GREAT
+    type: ITEM
+    weight: 1
+    display-name: "&eA Beacon!"
+    material: BEACON
+    amount: 1
+
+  - id: full_heal
+    tier: GREAT
+    type: COMMAND
+    weight: 5
+    display-name: "&aFull Heal + Saturation!"
+    commands:
+      - "effect give %player% minecraft:regeneration 10 4 true"
+      - "effect give %player% minecraft:saturation 30 1 true"
+      - "effect give %player% minecraft:absorption 120 3 true"
+
+  - id: treasure_chest_spawn
+    tier: GREAT
+    type: STRUCTURE
+    weight: 3
+    display-name: "&6Treasure Vault!"
+    structure: TREASURE_VAULT
+
+  - id: fireworks_celebration
+    tier: GREAT
+    type: FIREWORKS
+    weight: 6
+    display-name: "&eFireworks Celebration!"
+    count: 8
+
+  # ══════════════ GOOD ══════════════
+  - id: diamond_big
+    tier: GOOD
+    type: ITEM
+    weight: 12
+    display-name: "&bDiamond Stash!"
+    material: DIAMOND
+    amount: 16
+
+  - id: emerald_big
+    tier: GOOD
+    type: ITEM
+    weight: 12
+    display-name: "&aEmerald Fortune!"
+    material: EMERALD
+    amount: 12
+
+  - id: diamond_sword
+    tier: GOOD
+    type: ITEM
+    weight: 8
+    display-name: "&bEnchanted Diamond Sword!"
+    material: DIAMOND_SWORD
+    amount: 1
+    enchantments:
+      - "SHARPNESS:5"
+      - "FIRE_ASPECT:2"
+      - "LOOTING:3"
+      - "UNBREAKING:3"
+
+  - id: diamond_pickaxe
+    tier: GOOD
+    type: ITEM
+    weight: 8
+    display-name: "&bFortune Pickaxe!"
+    material: DIAMOND_PICKAXE
+    amount: 1
+    enchantments:
+      - "EFFICIENCY:5"
+      - "FORTUNE:3"
+      - "UNBREAKING:3"
+      - "MENDING:1"
+
+  - id: golden_apple_stack
+    tier: GOOD
+    type: ITEM
+    weight: 10
+    display-name: "&6A Stack of Golden Apples!"
+    material: GOLDEN_APPLE
+    amount: 16
+
+  - id: enchanted_golden_apple
+    tier: GOOD
+    type: ITEM
+    weight: 4
+    display-name: "&5Enchanted Golden Apple!"
+    material: ENCHANTED_GOLDEN_APPLE
+    amount: 1
+
+  - id: netherite_ingot
+    tier: GOOD
+    type: ITEM
+    weight: 6
+    display-name: "&8Netherite Ingot!"
+    material: NETHERITE_INGOT
+    amount: 3
+
+  - id: ender_chest
+    tier: GOOD
+    type: ITEM
+    weight: 6
+    display-name: "&5Ender Chest!"
+    material: ENDER_CHEST
+    amount: 1
+
+  - id: trident_reward
+    tier: GOOD
+    type: ITEM
+    weight: 5
+    display-name: "&bTrident!"
+    material: TRIDENT
+    amount: 1
+    enchantments:
+      - "LOYALTY:3"
+      - "RIPTIDE:3"
+      - "UNBREAKING:3"
+
+  - id: speed_boost
+    tier: GOOD
+    type: POTION_EFFECT
+    weight: 15
+    display-name: "&bSpeed + Jump Boost!"
+    effects:
+      - effect: SPEED
+        duration-seconds: 120
+        amplifier: 2
+      - effect: JUMP_BOOST
+        duration-seconds: 120
+        amplifier: 2
+
+  - id: strength_buff
+    tier: GOOD
+    type: POTION_EFFECT
+    weight: 12
+    display-name: "&cStrength + Resistance!"
+    effects:
+      - effect: STRENGTH
+        duration-seconds: 90
+        amplifier: 2
+      - effect: RESISTANCE
+        duration-seconds: 90
+        amplifier: 1
+
+  - id: give_xp
+    tier: GOOD
+    type: XP
+    weight: 15
+    display-name: "&a500 Experience Points!"
+    xp-points: 500
+
+  - id: enchant_held_item
+    tier: GOOD
+    type: ENCHANT_HELD
+    weight: 8
+    display-name: "&dEnchanted your held item!"
+    # Adds random enchantments to whatever the player is holding
+    levels: 30
+
+  - id: horse_spawn
+    tier: GOOD
+    type: MOB_SPAWN
+    weight: 5
+    display-name: "&fA Tamed Horse!"
+    mob: HORSE
+    count: 1
+    tamed: true
+
+  - id: diamond_ore_vein
+    tier: GOOD
+    type: STRUCTURE
+    weight: 6
+    display-name: "&bDiamond Ore Vein!"
+    structure: ORE_VEIN_DIAMOND
+
+  # ══════════════ NEUTRAL ══════════════
+  - id: diamond_small
+    tier: NEUTRAL
+    type: ITEM
+    weight: 25
+    display-name: "&bSome Diamonds!"
+    material: DIAMOND
+    amount: 3
+
+  - id: emerald_small
+    tier: NEUTRAL
+    type: ITEM
+    weight: 25
+    display-name: "&aSome Emeralds!"
+    material: EMERALD
+    amount: 5
+
+  - id: iron_ingot_stack
+    tier: NEUTRAL
+    type: ITEM
+    weight: 30
+    display-name: "&7Iron Ingots!"
+    material: IRON_INGOT
+    amount: 32
+
+  - id: gold_ingot_stack
+    tier: NEUTRAL
+    type: ITEM
+    weight: 28
+    display-name: "&6Gold Ingots!"
+    material: GOLD_INGOT
+    amount: 16
+
+  - id: food_bundle
+    tier: NEUTRAL
+    type: MULTI_ITEM
+    weight: 20
+    display-name: "&eSurprise Food Bundle!"
+    items:
+      - material: COOKED_BEEF
+        amount: 16
+      - material: BREAD
+        amount: 16
+      - material: GOLDEN_CARROT
+        amount: 8
+
+  - id: night_vision_buff
+    tier: NEUTRAL
+    type: POTION_EFFECT
+    weight: 18
+    display-name: "&7Night Vision + Haste!"
+    effects:
+      - effect: NIGHT_VISION
+        duration-seconds: 180
+        amplifier: 0
+      - effect: HASTE
+        duration-seconds: 60
+        amplifier: 1
+
+  - id: iron_set
+    tier: NEUTRAL
+    type: MULTI_ITEM
+    weight: 15
+    display-name: "&7Enchanted Iron Armor!"
+    items:
+      - material: IRON_HELMET
+        amount: 1
+        enchantments: ["PROTECTION:3","UNBREAKING:2"]
+      - material: IRON_CHESTPLATE
+        amount: 1
+        enchantments: ["PROTECTION:3","UNBREAKING:2"]
+      - material: IRON_LEGGINGS
+        amount: 1
+        enchantments: ["PROTECTION:3","UNBREAKING:2"]
+      - material: IRON_BOOTS
+        amount: 1
+        enchantments: ["PROTECTION:3","FEATHER_FALLING:3","UNBREAKING:2"]
+
+  - id: zombie_horde
+    tier: NEUTRAL
+    type: MOB_SPAWN
+    weight: 15
+    display-name: "&2Zombie Horde!"
+    mob: ZOMBIE
+    count: 5
+
+  - id: troll_message
+    tier: NEUTRAL
+    type: MESSAGE
+    weight: 10
+    display-name: "&7...Nothing."
+    message: "&7The Lucky Block stares back at you in silence. Nothing happens."
+
+  - id: chicken_rain
+    tier: NEUTRAL
+    type: MOB_SPAWN
+    weight: 8
+    display-name: "&fChicken Rain!"
+    mob: CHICKEN
+    count: 12
+    drop-from-sky: true
+
+  - id: fireworks_small
+    tier: NEUTRAL
+    type: FIREWORKS
+    weight: 15
+    display-name: "&eSome Fireworks!"
+    count: 3
+
+  - id: chest_loot
+    tier: NEUTRAL
+    type: CHEST_LOOT
+    weight: 18
+    display-name: "&eMystery Chest Drops!"
+    # Drops random vanilla loot table items on the ground
+    loot-table: "minecraft:chests/simple_dungeon"
+
+  # ══════════════ BAD ══════════════
+  - id: rotten_flesh_pile
+    tier: BAD
+    type: ITEM
+    weight: 20
+    display-name: "&4A Pile of Rotten Flesh..."
+    material: ROTTEN_FLESH
+    amount: 32
+
+  - id: cobweb_trap
+    tier: BAD
+    type: STRUCTURE
+    weight: 12
+    display-name: "&8Cobweb Trap!"
+    structure: COBWEB_TRAP
+
+  - id: small_explosion
+    tier: BAD
+    type: EXPLOSION
+    weight: 15
+    display-name: "&cKABOOM!"
+    power: 2.5
+    break-blocks: false
+
+  - id: big_explosion
+    tier: BAD
+    type: EXPLOSION
+    weight: 4
+    display-name: "&4MASSIVE EXPLOSION!"
+    power: 5.0
+    break-blocks: true
+
+  - id: blindness_curse
+    tier: BAD
+    type: POTION_EFFECT
+    weight: 18
+    display-name: "&8Blindness + Slowness..."
+    effects:
+      - effect: BLINDNESS
+        duration-seconds: 15
+        amplifier: 0
+      - effect: SLOWNESS
+        duration-seconds: 30
+        amplifier: 3
+
+  - id: wither_effect
+    tier: BAD
+    type: POTION_EFFECT
+    weight: 6
+    display-name: "&0Wither Curse!"
+    effects:
+      - effect: WITHER
+        duration-seconds: 5
+        amplifier: 1
+
+  - id: skeleton_ambush
+    tier: BAD
+    type: MOB_SPAWN
+    weight: 14
+    display-name: "&fSkeleton Ambush!"
+    mob: SKELETON
+    count: 4
+    with-gear: true
+
+  - id: creeper_surprise
+    tier: BAD
+    type: MOB_SPAWN
+    weight: 8
+    display-name: "&aCharged Creeper!"
+    mob: CREEPER
+    count: 1
+    powered: true
+
+  - id: obsidian_cage
+    tier: BAD
+    type: STRUCTURE
+    weight: 10
+    display-name: "&8Obsidian Cage!"
+    structure: OBSIDIAN_CAGE
+
+  - id: lightning_storm
+    tier: BAD
+    type: LIGHTNING
+    weight: 8
+    display-name: "&eLightning Storm!"
+    count: 5
+    damage: false
+
+  - id: item_curse
+    tier: BAD
+    type: TRAP
+    weight: 6
+    display-name: "&4Item Curse!"
+    # Temporarily swaps hotbar items to cursed copies then returns them
+    trap: DROP_HOTBAR

@@ -16,6 +16,7 @@ public final class LuckyBlockPlugin extends JavaPlugin {
     private CraftingManager craftingManager;
     private GuiManager guiManager;
     private NamespacedKey luckyItemKey;
+    private NamespacedKey rarityKey;
     private boolean placeholderApiEnabled = false;
 
     @Override
@@ -24,6 +25,7 @@ public final class LuckyBlockPlugin extends JavaPlugin {
         saveDefaultConfig();
 
         this.luckyItemKey  = new NamespacedKey(this, "lucky_block_item");
+        this.rarityKey     = new NamespacedKey(this, "lucky_block_rarity");
         this.langManager   = new LangManager(this);
         this.langManager.load();
         this.luckManager   = new LuckManager(this);
@@ -69,6 +71,7 @@ public final class LuckyBlockPlugin extends JavaPlugin {
     public StatsManager getStatsManager()         { return statsManager; }
     public GuiManager getGuiManager()             { return guiManager; }
     public NamespacedKey getLuckyItemKey()         { return luckyItemKey; }
+    public NamespacedKey getRarityKey()            { return rarityKey; }
     public boolean isPlaceholderApiEnabled()       { return placeholderApiEnabled; }
 
     public void reload() {

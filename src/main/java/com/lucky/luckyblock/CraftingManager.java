@@ -1,22 +1,15 @@
 package com.lucky.luckyblock;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.*;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.inventory.ShapedRecipe;
 
 import java.util.List;
 
-/**
- * Registers the Lucky Block crafting recipe from config.yml under the
- * crafting.shape + crafting.ingredients keys.
- */
 public class CraftingManager {
 
     private final LuckyBlockPlugin plugin;
-    private NamespacedKey recipeKey;
+    private final NamespacedKey recipeKey;
 
     public CraftingManager(LuckyBlockPlugin plugin) {
         this.plugin = plugin;
@@ -24,9 +17,7 @@ public class CraftingManager {
     }
 
     public void register() {
-        // Remove old recipe if reloading
         plugin.getServer().removeRecipe(recipeKey);
-
         if (!plugin.getConfig().getBoolean("crafting.enabled", true)) return;
 
         List<String> shape = plugin.getConfig().getStringList("crafting.shape");
@@ -35,7 +26,11 @@ public class CraftingManager {
             return;
         }
 
-        ItemStack result = buildLuckyBlockItem(plugin.getConfig().getInt("crafting.result-amount", 1));
+        // Result is always a COMMON rarity lucky block (skull item)
+        LuckyBlockCommand cmd = new LuckyBlockCommand(plugin);
+        int amount = plugin.getConfig().getInt("crafting.result-amount", 1);
+        var result = cmd.buildLuckyBlockItem(amount, LuckyBlockRarity.COMMON);
+
         ShapedRecipe recipe = new ShapedRecipe(recipeKey, result);
         recipe.shape(shape.get(0), shape.get(1), shape.get(2));
 
@@ -45,7 +40,7 @@ public class CraftingManager {
                 String matName = ingredientSection.getString(key, "AIR");
                 Material mat = Material.matchMaterial(matName);
                 if (mat == null || mat == Material.AIR) {
-                    plugin.getLogger().warning("Unknown crafting ingredient material: " + matName);
+                    plugin.getLogger().warning("Unknown crafting ingredient: " + matName);
                     continue;
                 }
                 recipe.setIngredient(key.charAt(0), mat);
@@ -53,23 +48,6 @@ public class CraftingManager {
         }
 
         plugin.getServer().addRecipe(recipe);
-        plugin.getLogger().info("Lucky Block crafting recipe registered.");
-    }
-
-    private ItemStack buildLuckyBlockItem(int amount) {
-        Material mat = Material.matchMaterial(
-                plugin.getConfig().getString("lucky-block-material", "GOLD_BLOCK"));
-        if (mat == null) mat = Material.GOLD_BLOCK;
-
-        ItemStack item = new ItemStack(mat, amount);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "✦ Lucky Block");
-        meta.setLore(List.of(
-                ChatColor.GRAY + "Place and break for a random reward!",
-                ChatColor.DARK_GRAY + "Your luck determines what you get."
-        ));
-        meta.getPersistentDataContainer().set(plugin.getLuckyItemKey(), PersistentDataType.BYTE, (byte) 1);
-        item.setItemMeta(meta);
-        return item;
+        plugin.getLogger().info("Lucky Block crafting recipe registered (COMMON rarity).");
     }
 }

@@ -74,7 +74,7 @@ help-addluck: "&e/lb addluck <g> <n> &7- dodaj szczęście"
 help-getluck: "&e/lb getluck [g]   &7- sprawdź szczęście"
 help-list: "&e/lb list           &7- lista nagród"
 help-reload: "&e/lb reload         &7- przeładuj"
-help-craft: "&7Craft: &88 &6Złotych Bloków &7+ &81 &7Dozownik"
+help-craft: "&7Craft: &88 &6Złotych Bloków &7+ &81 &7Dozownik → &aZwykły Blok"
 
 # ── Przedmiot — Szczęśliwy Blok ──────────────────────────
 lucky-block-item-name: "&6&l✦ Szczęśliwy Blok"
@@ -159,3 +159,13 @@ gui-cmd-note2: "&7Użyj %player% dla nazwy gracza"
 gui-cmd-note3: ""
 gui-cmd-add-prompt: "Wpisz komendę (bez /, %player% dla gracza):"
 gui-cmd-edit-prompt: "Edytuj komendę %n% (obecna: %cmd%):"
+
+# ── Rzadkość ──────────────────────────────────────────────
+rarity-common: "&aZwykły"
+rarity-rare: "&9Rzadki"
+rarity-epic: "&5Epicki"
+rarity-legendary: "&6&lLegendarny"
+
+# ── GUI — Menu Główne sekcja rzadkości ────────────────────
+gui-main-give-rarity-info: "&7Daj według Rzadkości"
+gui-main-give-rarity-desc: "&7Kliknij blok poniżej, aby go otrzymać"

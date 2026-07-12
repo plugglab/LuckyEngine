@@ -404,15 +404,15 @@ public class RewardEditorGui extends BaseGui {
     @SuppressWarnings("unchecked")
     private void saveReward() {
         if (state.id.isBlank()) { player.sendMessage(plugin().getLangManager().get("gui-editor-id-empty")); return; }
-        List<Object> list = (List<Object>) plugin().getConfig().getList("rewards", new ArrayList<>());
+        List<Object> list = (List<Object>) plugin().getRewardManager().getRewardsConfig().getList("rewards", new ArrayList<>());
         Map<String,Object> map = buildMap();
         if (state.isNew) { list.add(map); }
         else {
             if (state.originalIndex >= 0 && state.originalIndex < list.size()) list.set(state.originalIndex, map);
             else list.add(map);
         }
-        plugin().getConfig().set("rewards", list);
-        plugin().saveConfig();
+        plugin().getRewardManager().getRewardsConfig().set("rewards", list);
+        plugin().getRewardManager().saveRewardsConfig();
         plugin().getRewardManager().loadRewards();
         player.sendMessage(plugin().getLangManager().get("gui-editor-save-ok", "id", state.id));
         manager.openRewardList(player, 0);
@@ -420,11 +420,11 @@ public class RewardEditorGui extends BaseGui {
 
     @SuppressWarnings("unchecked")
     private void deleteReward() {
-        List<Object> list = (List<Object>) plugin().getConfig().getList("rewards", new ArrayList<>());
+        List<Object> list = (List<Object>) plugin().getRewardManager().getRewardsConfig().getList("rewards", new ArrayList<>());
         if (state.originalIndex >= 0 && state.originalIndex < list.size()) {
             list.remove(state.originalIndex);
-            plugin().getConfig().set("rewards", list);
-            plugin().saveConfig();
+            plugin().getRewardManager().getRewardsConfig().set("rewards", list);
+            plugin().getRewardManager().saveRewardsConfig();
             plugin().getRewardManager().loadRewards();
             player.sendMessage(plugin().getLangManager().get("gui-editor-delete-ok", "id", state.id));
         }

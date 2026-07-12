@@ -3,6 +3,8 @@ package com.lucky.luckyblock;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
@@ -13,6 +15,8 @@ import org.bukkit.loot.LootTables;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 
@@ -22,13 +26,43 @@ public class RewardManager {
     private final List<Reward> rewards = new ArrayList<>();
     private final Random random = new Random();
 
+    private File rewardsFile;
+    private FileConfiguration rewardsConfig;
+
     public RewardManager(LuckyBlockPlugin plugin) { this.plugin = plugin; }
     public List<Reward> getRewards() { return rewards; }
 
+    /**
+     * Loads (or creates) rewards.yml — rewards live in their own file, separate
+     * from config.yml, so they can be edited/shared independently.
+     */
+    public FileConfiguration getRewardsConfig() {
+        if (rewardsConfig == null) setupRewardsFile();
+        return rewardsConfig;
+    }
+
+    public void saveRewardsConfig() {
+        if (rewardsConfig == null || rewardsFile == null) return;
+        try {
+            rewardsConfig.save(rewardsFile);
+        } catch (IOException ex) {
+            plugin.getLogger().log(Level.SEVERE, "Could not save rewards.yml", ex);
+        }
+    }
+
+    private void setupRewardsFile() {
+        rewardsFile = new File(plugin.getDataFolder(), "rewards.yml");
+        if (!rewardsFile.exists()) {
+            plugin.saveResource("rewards.yml", false);
+        }
+        rewardsConfig = YamlConfiguration.loadConfiguration(rewardsFile);
+    }
+
     public void loadRewards() {
         rewards.clear();
-        List<?> list = plugin.getConfig().getList("rewards");
-        if (list == null) { plugin.getLogger().warning("No 'rewards' list found in config.yml!"); return; }
+        setupRewardsFile();
+        List<?> list = rewardsConfig.getList("rewards");
+        if (list == null) { plugin.getLogger().warning("No 'rewards' list found in rewards.yml!"); return; }
 
         for (Object obj : list) {
             ConfigurationSection section;

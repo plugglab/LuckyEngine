@@ -3,20 +3,21 @@ package com.lucky.luckyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Entity;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 /**
- * Tracks placed Lucky Blocks (yellow glass + inner sponge BlockDisplay).
- * Stores one display entity UUID per location; removes it on break.
+ * Tracks placed Lucky Block locations → rarity.
+ * Only blocks placed from a Lucky Block item are tracked;
+ * naturally-placed player heads are untouched.
  */
 public final class LuckyBlockTracker {
 
-    // loc key → inner sponge display UUID string
+    /** loc key → rarity name */
     private static final Map<String, String> entries = new HashMap<>();
     private static File dataFile;
 
@@ -34,14 +35,13 @@ public final class LuckyBlockTracker {
                 + ";" + loc.getBlockZ();
     }
 
-    public static void mark(Location loc, UUID displayUUID) {
-        entries.put(key(loc), displayUUID.toString());
+    public static void mark(Location loc, LuckyBlockRarity rarity) {
+        entries.put(key(loc), rarity.name());
         save();
     }
 
     public static void unmark(Location loc) {
-        String uuid = entries.remove(key(loc));
-        if (uuid != null) removeEntity(uuid);
+        entries.remove(key(loc));
         save();
     }
 
@@ -49,11 +49,8 @@ public final class LuckyBlockTracker {
         return entries.containsKey(key(loc));
     }
 
-    private static void removeEntity(String uuidStr) {
-        try {
-            Entity e = Bukkit.getEntity(UUID.fromString(uuidStr));
-            if (e != null) e.remove();
-        } catch (Exception ignored) {}
+    public static LuckyBlockRarity getRarity(Location loc) {
+        return LuckyBlockRarity.fromString(entries.get(key(loc)));
     }
 
     private static void load() {
@@ -61,8 +58,8 @@ public final class LuckyBlockTracker {
         YamlConfiguration cfg = YamlConfiguration.loadConfiguration(dataFile);
         entries.clear();
         for (String k : cfg.getKeys(false)) {
-            String uuid = cfg.getString(k);
-            if (uuid != null) entries.put(k, uuid);
+            String val = cfg.getString(k);
+            if (val != null) entries.put(k, val);
         }
     }
 

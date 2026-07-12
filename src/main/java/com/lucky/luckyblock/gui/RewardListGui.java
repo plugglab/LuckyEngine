@@ -107,11 +107,11 @@ public class RewardListGui extends BaseGui {
     @SuppressWarnings("unchecked")
     private void deleteReward(int index) {
         java.util.List<Object> list = (java.util.List<Object>) manager.getPlugin()
-                .getConfig().getList("rewards", new java.util.ArrayList<>());
+                .getRewardManager().getRewardsConfig().getList("rewards", new java.util.ArrayList<>());
         if (index < 0 || index >= list.size()) return;
         list.remove(index);
-        manager.getPlugin().getConfig().set("rewards", list);
-        manager.getPlugin().saveConfig();
+        manager.getPlugin().getRewardManager().getRewardsConfig().set("rewards", list);
+        manager.getPlugin().getRewardManager().saveRewardsConfig();
         manager.getPlugin().getRewardManager().loadRewards();
         player.sendMessage("§c✗ Reward deleted.");
         // Re-open on same page (clamped if it was the last item)
