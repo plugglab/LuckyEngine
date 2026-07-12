@@ -9,7 +9,7 @@ softdepend: [PlaceholderAPI]
 commands:
   luckyblock:
     description: Main command for LuckyBlock plugin
-    aliases: [lb, lucky]
+    aliases: [lb, lucky, block]
     usage: |
       /luckyblock gui
       /luckyblock give <player> [amount]

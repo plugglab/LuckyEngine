@@ -19,7 +19,7 @@ suppress-normal-drop: true
 # rewards tagged with tier: GOOD or GREAT; negative luck biases toward BAD.
 default-luck: 0
 
-# Min and max possible luck values
+# Min and max possible luck values.
 luck-min: -100
 luck-max: 100
 

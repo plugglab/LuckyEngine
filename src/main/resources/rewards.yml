@@ -117,6 +117,44 @@ rewards:
     weight: 6
     display-name: "&eFireworks Celebration!"
     count: 8
+  - id: shulker_box_loot
+    tier: GREAT
+    type: ITEM
+    weight: 3
+    display-name: "&dShulker Box!"
+    material: PURPLE_SHULKER_BOX
+    amount: 1
+
+  - id: diamond_block_reward
+    tier: GREAT
+    type: ITEM
+    weight: 2
+    display-name: "&bDiamond Blocks!"
+    material: DIAMOND_BLOCK
+    amount: 4
+
+  - id: hero_effects
+    tier: GREAT
+    type: POTION_EFFECT
+    weight: 5
+    display-name: "&6Hero Buff!"
+    effects:
+      - effect: REGENERATION
+        duration-seconds: 30
+        amplifier: 2
+      - effect: SPEED
+        duration-seconds: 180
+        amplifier: 2
+      - effect: STRENGTH
+        duration-seconds: 120
+        amplifier: 1
+
+  - id: bonus_xp
+    tier: GREAT
+    type: XP
+    weight: 4
+    display-name: "&aHuge XP Reward!"
+    xp-points: 1500
 
   # ══════════════ GOOD ══════════════
   - id: diamond_big
@@ -261,6 +299,46 @@ rewards:
     weight: 6
     display-name: "&bDiamond Ore Vein!"
     structure: ORE_VEIN_DIAMOND
+  - id: arrows_bundle
+    tier: GOOD
+    type: ITEM
+    weight: 10
+    display-name: "&fArrow Bundle!"
+    material: ARROW
+    amount: 64
+
+  - id: rockets_bundle
+    tier: GOOD
+    type: ITEM
+    weight: 8
+    display-name: "&fFirework Rockets!"
+    material: FIREWORK_ROCKET
+    amount: 32
+
+  - id: lapis_stack
+    tier: GOOD
+    type: ITEM
+    weight: 12
+    display-name: "&9Lapis Lazuli!"
+    material: LAPIS_LAZULI
+    amount: 64
+
+  - id: amethyst_reward
+    tier: GOOD
+    type: ITEM
+    weight: 8
+    display-name: "&dAmethyst Shards!"
+    material: AMETHYST_SHARD
+    amount: 32
+
+  - id: wolf_friend
+    tier: GOOD
+    type: MOB_SPAWN
+    weight: 5
+    display-name: "&fFriendly Wolf!"
+    mob: WOLF
+    count: 1
+    tamed: true
 
   # ══════════════ NEUTRAL ══════════════
   - id: diamond_small
@@ -378,6 +456,49 @@ rewards:
     display-name: "&eMystery Chest Drops!"
     # Drops random vanilla loot table items on the ground
     loot-table: "minecraft:chests/simple_dungeon"
+  - id: coal_stack
+    tier: NEUTRAL
+    type: ITEM
+    weight: 25
+    display-name: "&8Coal!"
+    material: COAL
+    amount: 64
+
+  - id: copper_stack
+    tier: NEUTRAL
+    type: ITEM
+    weight: 20
+    display-name: "&6Copper!"
+    material: COPPER_INGOT
+    amount: 48
+
+  - id: random_xp
+    tier: NEUTRAL
+    type: XP
+    weight: 18
+    display-name: "&aSmall XP Reward!"
+    xp-points: 200
+
+  - id: water_breathing
+    tier: NEUTRAL
+    type: POTION_EFFECT
+    weight: 12
+    display-name: "&bOcean Blessing!"
+    effects:
+      - effect: WATER_BREATHING
+        duration-seconds: 180
+        amplifier: 0
+      - effect: DOLPHINS_GRACE
+        duration-seconds: 120
+        amplifier: 0
+
+  - id: pig_party
+    tier: NEUTRAL
+    type: MOB_SPAWN
+    weight: 10
+    display-name: "&dPig Party!"
+    mob: PIG
+    count: 8
 
   # ══════════════ BAD ══════════════
   - id: rotten_flesh_pile
@@ -474,3 +595,45 @@ rewards:
     display-name: "&4Item Curse!"
     # Temporarily swaps hotbar items to cursed copies then returns them
     trap: DROP_HOTBAR
+  - id: poison_curse
+    tier: BAD
+    type: POTION_EFFECT
+    weight: 12
+    display-name: "&2Poison!"
+    effects:
+      - effect: POISON
+        duration-seconds: 12
+        amplifier: 1
+
+  - id: silverfish_attack
+    tier: BAD
+    type: MOB_SPAWN
+    weight: 12
+    display-name: "&7Silverfish Attack!"
+    mob: SILVERFISH
+    count: 8
+
+  - id: spider_attack
+    tier: BAD
+    type: MOB_SPAWN
+    weight: 12
+    display-name: "&8Spider Attack!"
+    mob: SPIDER
+    count: 5
+
+  - id: hunger_curse
+    tier: BAD
+    type: POTION_EFFECT
+    weight: 10
+    display-name: "&6Hungry..."
+    effects:
+      - effect: HUNGER
+        duration-seconds: 45
+        amplifier: 2
+
+  - id: fake_reward
+    tier: BAD
+    type: MESSAGE
+    weight: 8
+    display-name: "&7Better luck next time!"
+    message: "&cThe Lucky Block fooled you."
