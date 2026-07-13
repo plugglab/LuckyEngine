@@ -1,5 +1,5 @@
 name: LuckyBlock
-version: '1.0'
+version: '1.1'
 main: com.lucky.luckyblock.LuckyBlockPlugin
 api-version: '1.21'
 author: PluggLAB studio

@@ -6,9 +6,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Objects;
+
 public final class LuckyBlockPlugin extends JavaPlugin {
 
-    private static LuckyBlockPlugin instance;
     private RewardManager rewardManager;
     private LuckManager luckManager;
     private LangManager langManager;
@@ -17,11 +18,9 @@ public final class LuckyBlockPlugin extends JavaPlugin {
     private GuiManager guiManager;
     private NamespacedKey luckyItemKey;
     private NamespacedKey rarityKey;
-    private boolean placeholderApiEnabled = false;
 
     @Override
     public void onEnable() {
-        instance = this;
         saveDefaultConfig();
 
         this.luckyItemKey  = new NamespacedKey(this, "lucky_block_item");
@@ -45,12 +44,19 @@ public final class LuckyBlockPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GuiListener(guiManager), this);
 
         LuckyBlockCommand cmd = new LuckyBlockCommand(this);
-        getCommand("luckyblock").setExecutor(cmd);
-        getCommand("luckyblock").setTabCompleter(cmd);
+        Objects.requireNonNull(getCommand("luckyblock")).setExecutor(cmd);
+        Objects.requireNonNull(getCommand("luckyblock")).setTabCompleter(cmd);
+        UpdateChecker updateChecker = new UpdateChecker(this);
+        updateChecker.check();
+        getServer()
+                .getPluginManager()
+                .registerEvents(
+                        new JoinListener(updateChecker, this),
+                        this
+                );
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new LuckyBlockPlaceholders(this).register();
-            placeholderApiEnabled = true;
             getLogger().info("PlaceholderAPI found — placeholders registered.");
         }
 
@@ -64,7 +70,6 @@ public final class LuckyBlockPlugin extends JavaPlugin {
         getLogger().info("LuckyBlock disabled.");
     }
 
-    public static LuckyBlockPlugin getInstance() { return instance; }
     public RewardManager getRewardManager()       { return rewardManager; }
     public LuckManager getLuckManager()           { return luckManager; }
     public LangManager getLangManager()           { return langManager; }
@@ -72,7 +77,6 @@ public final class LuckyBlockPlugin extends JavaPlugin {
     public GuiManager getGuiManager()             { return guiManager; }
     public NamespacedKey getLuckyItemKey()         { return luckyItemKey; }
     public NamespacedKey getRarityKey()            { return rarityKey; }
-    public boolean isPlaceholderApiEnabled()       { return placeholderApiEnabled; }
 
     public void reload() {
         reloadConfig();

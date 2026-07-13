@@ -1,6 +1,9 @@
 # Changelog — LuckyBlock
+## v1.1
 
-## v1.0.0 — Initial Release
+### Update Chcker
+
+## v1.0 — Initial Release
 
 ### Core Features
 - Lucky Block system using Yellow Stained Glass as the real block with a half-scale Sponge `BlockDisplay` entity centred inside
